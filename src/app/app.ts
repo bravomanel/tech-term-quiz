@@ -71,10 +71,10 @@ export class AppComponent {
 
     if (selectedOption === question.correctAnswer) {
       this.score.update(v => v + 1);
-      this.feedbackMessage.set({text: 'Correto! Mandou bem.', type: 'success'});
+      this.feedbackMessage.set({text: 'Correto', type: 'success'});
     } else {
       this.feedbackMessage.set({
-        text: `Errado! A resposta correta era: ${question.correctAnswer}`, 
+        text: `Errado, a resposta certa era: ${question.correctAnswer}`, 
         type: 'danger'
       });
     }
