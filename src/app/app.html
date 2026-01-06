@@ -1,0 +1,64 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary fw-bold">Tech Term Quiz</h3>
+        <span class="badge bg-secondary fs-6">Pontuação: {{ score() }} / {{ totalQuestions() }}</span>
+      </div>
+
+      @if (currentQuestion(); as question) {
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-dark text-white text-center py-4">
+            <small class="text-uppercase text-warning mb-1 d-block">
+              @if (question.type === 'FIND_DEF') {
+                O que significa este termo?
+              } @else {
+                Qual termo define isto?
+              }
+            </small>
+            <h2 class="h4 mb-0">{{ question.text }}</h2>
+          </div>
+
+          <div class="card-body p-4">
+            <div class="d-grid gap-3">
+              @for (option of question.options; track $index) {
+                <button 
+                  class="btn btn-outline-primary p-3 text-start option-btn"
+                  [class.btn-success]="feedbackMessage().text && option === question.correctAnswer"
+                  [class.btn-danger]="feedbackMessage().text && option !== question.correctAnswer && feedbackMessage().type === 'danger'"
+                  [disabled]="feedbackMessage().text !== ''"
+                  (click)="checkAnswer(option)">
+                  {{ option }}
+                </button>
+              }
+            </div>
+
+            @if (feedbackMessage().text) {
+              <div class="mt-4">
+                <div class="alert text-center mb-3" 
+                     [class.alert-success]="feedbackMessage().type === 'success'"
+                     [class.alert-danger]="feedbackMessage().type === 'danger'">
+                  <strong>{{ feedbackMessage().text }}</strong>
+                </div>
+                
+                <div class="d-grid">
+                  <button class="btn btn-lg btn-dark" (click)="nextQuestion()">
+                    Próxima Pergunta &rarr;
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="text-center mt-4">
+        <button class="btn btn-link text-muted text-decoration-none" (click)="restartGame()">
+          Reiniciar Score
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
